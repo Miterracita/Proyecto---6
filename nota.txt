@@ -1,0 +1,2 @@
+
+8️⃣ Hay otra colección relacionada con la anterior,  con un método GET y otro POST, que me permiten ver uno de estos datos con los datos relacionados de la anterior colección y crear los datos que nos apetezcan
