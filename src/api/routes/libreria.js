@@ -1,7 +1,10 @@
 const libreriaRouter = require("express").Router();
-const { getLibreria, postLibreria } = require("../controllers/libreria");
+const { getLibrerias, postLibreria, updateLibreria, deleteLibreria } = require("../controllers/libreria");
 
-libreriaRouter.get("/", getLibreria);
+
+libreriaRouter.get("/", getLibrerias);
 libreriaRouter.post("/nueva", postLibreria);
+libreriaRouter.put("/:id", updateLibreria);
+libreriaRouter.delete("/eliminar", deleteLibreria);
 
 module.exports = libreriaRouter;

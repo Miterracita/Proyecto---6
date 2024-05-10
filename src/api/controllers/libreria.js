@@ -1,7 +1,7 @@
 const Libreria = require("../models/Libreria");
 
 //consultar todos las librerias en bbdd
-const getLibreria = async (req, res, next) => {
+const getLibrerias = async (req, res, next) => {
     try {
         const librerias = await Libreria.find().populate("libros");
         return res.status(200).json(librerias);
@@ -21,7 +21,45 @@ const postLibreria = async (req, res, next) => {
     }
 }
 
+const updateLibreria = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const newLibreria = new Libreria(req.body);
+        newLibreria._id = id;
+
+        // Encuentra la librería existente por ID
+        const libreriaExistente = await Libreria.findById(id);
+
+        // Actualiza los campos relevantes de la instancia newLibreria
+        libreriaExistente.nombre = newLibreria.nombre;
+        libreriaExistente.direccion = newLibreria.direccion;
+        libreriaExistente.web = newLibreria.web;
+        libreriaExistente.libros = newLibreria.libros;
+
+        // Guarda los cambios "actualiza la librería existente con el id con los nuevos datos proporcionados"
+        const libreriaActualizada = await libreriaExistente.save();
+
+        return res.status(201).json(libreriaActualizada);
+    } catch (error) {
+        return res.status(400).json({ error: 'Error al actualizar la librería' });
+    }
+};
+
+
+//borrar una librería
+const deleteLibreria = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const libreriaDelete = await Libreria.findByIdAndDelete(id);
+        return res.status(200).json(libreriaDelete);
+    } catch (error){
+        return res.status(400).json("error");
+    }
+}
+
 module.exports = {
-    getLibreria,
+    getLibrerias,
     postLibreria,
+    updateLibreria,
+    deleteLibreria,
 }
