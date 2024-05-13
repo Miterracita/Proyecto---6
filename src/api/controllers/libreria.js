@@ -30,14 +30,11 @@ const updateLibreria = async (req, res, next) => {
         // Encuentra la librería existente por ID
         const libreriaExistente = await Libreria.findById(id);
 
-        // Actualiza los campos relevantes de la instancia newLibreria
-        libreriaExistente.nombre = newLibreria.nombre;
-        libreriaExistente.direccion = newLibreria.direccion;
-        libreriaExistente.web = newLibreria.web;
-        libreriaExistente.libros = newLibreria.libros;
-
-        // Guarda los cambios "actualiza la librería existente con el id con los nuevos datos proporcionados"
-        const libreriaActualizada = await libreriaExistente.save();
+        //concatenar libros existentes con nuevos
+        const librosLibreria = libreriaExistente.libros + newLibreria.libros;
+        newLibreria.libros = librosLibreria;
+        
+        const libreriaActualizada = await Libreria.findByIdAndUpdate(id, newLibreria , { new: true, });
 
         return res.status(201).json(libreriaActualizada);
     } catch (error) {
